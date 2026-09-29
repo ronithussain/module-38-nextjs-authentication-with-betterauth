@@ -31,9 +31,9 @@ const SignUpPage = () => {
     console.log(restData, error, 'the submit data is...');
   };
   return (
-    <div className="container mx-auto p-8">
-      <h2>SIgn Up Page</h2>
+    <div className="container mx-auto min-h-screen flex justify-center items-center">
       <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
+      <h2 className="text-xl font-bold">SIgn Up Page</h2>
         <TextField
           isRequired
           name="name"
