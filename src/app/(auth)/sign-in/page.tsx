@@ -39,82 +39,139 @@ const SignInPage = () => {
     });
     console.log("The Sign in submit data is", resData, error);
   };
+
+  // social google sign in:
+  const handleGoogleSignIn = async () => {
+    const resData = await signIn.social({
+      provider: "google",
+    });
+    // console.log("after google sign in", resData);
+  };
+
+  // socila github sign in:
+  const handleGithubSignIn = async () => {
+    const resData = await signIn.social({
+      provider: "github",
+    });
+    console.log("after github sign in", resData);
+  };
+
   return (
-    <div className="container mx-auto min-h-screen flex justify-center items-center">
-      <Form
-        className="flex w-96 flex-col gap-4"
-        render={(props) => <form {...props} data-custom="foo" />}
-        onSubmit={onSubmit}
-      >
-        <h2 className="text-xl font-bold">SIgn In Page</h2>
-        <TextField
-          isRequired
-          name="email"
-          type="email"
-          validate={(value) => {
-            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-              return "Please enter a valid email address";
-            }
-            return null;
-          }}
+    <div className="container mx-auto min-h-screen flex flex-col items-center justify-center px-4">
+      {/* Sign In Form */}
+      <div className="w-full max-w-md">
+        <Form
+          className="flex w-full flex-col gap-4"
+          render={(props) => <form {...props} data-custom="foo" />}
+          onSubmit={onSubmit}
         >
-          <Label>Email</Label>
-          <Input placeholder="john@example.com" />
-          <FieldError />
-        </TextField>
-        <TextField
-          className="w-full max-w-[280px]"
-          name="password"
-          validate={(value) => {
-            if (value.length < 8) {
-              return "Password must be at least 8 characters";
-            }
-            if (!/[A-Z]/.test(value)) {
-              return "Password must contain at least one uppercase letter";
-            }
-            if (!/[0-9]/.test(value)) {
-              return "Password must contain at least one number";
-            }
-            return null;
-          }}
-        >
-          <Label>Password</Label>
-          <InputGroup>
-            <InputGroup.Input
-              className="w-full max-w-[280px]"
-              type={isVisible ? "text" : "password"}
-            />
-            <InputGroup.Suffix className="pe-0">
-              <Button
-                isIconOnly
-                aria-label={isVisible ? "Hide password" : "Show password"}
-                size="sm"
-                variant="ghost"
-                onPress={() => setIsVisible(!isVisible)}
-              >
-                {isVisible ? (
-                  <Eye className="size-4" />
-                ) : (
-                  <EyeSlash className="size-4" />
-                )}
-              </Button>
-            </InputGroup.Suffix>
-          </InputGroup>
-          <Description>
-            Must be at least 8 characters with 1 uppercase and 1 number
-          </Description>
-          <FieldError />
-        </TextField>
-        <div className="flex gap-2">
-          <Button type="submit">
-            {/* <Check /> */}
-            Submit
-          </Button>
-          <Button type="reset" variant="secondary">
-            Reset
-          </Button>
+          <h2 className="text-center text-2xl font-bold">Sign In Page</h2>
+
+          {/* Email */}
+          <TextField
+            isRequired
+            name="email"
+            type="email"
+            validate={(value) => {
+              if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+                return "Please enter a valid email address";
+              }
+              return null;
+            }}
+          >
+            <Label>Email</Label>
+            <Input placeholder="john@example.com" />
+            <FieldError />
+          </TextField>
+
+          {/* Password */}
+          <TextField
+            name="password"
+            validate={(value) => {
+              if (value.length < 8) {
+                return "Password must be at least 8 characters";
+              }
+
+              if (!/[A-Z]/.test(value)) {
+                return "Password must contain at least one uppercase letter";
+              }
+
+              if (!/[0-9]/.test(value)) {
+                return "Password must contain at least one number";
+              }
+
+              return null;
+            }}
+          >
+            <Label>Password</Label>
+
+            <InputGroup className="w-full">
+              <InputGroup.Input
+                className="w-full"
+                type={isVisible ? "text" : "password"}
+              />
+
+              <InputGroup.Suffix className="pe-0">
+                <Button
+                  isIconOnly
+                  aria-label={isVisible ? "Hide password" : "Show password"}
+                  size="sm"
+                  variant="ghost"
+                  onPress={() => setIsVisible(!isVisible)}
+                >
+                  {isVisible ? (
+                    <Eye className="size-4" />
+                  ) : (
+                    <EyeSlash className="size-4" />
+                  )}
+                </Button>
+              </InputGroup.Suffix>
+            </InputGroup>
+
+            <Description>
+              Must be at least 8 characters with 1 uppercase and 1 number
+            </Description>
+
+            <FieldError />
+          </TextField>
+
+          {/* Submit & Reset */}
+          <div className="flex gap-3 pt-2">
+            <Button type="submit">Submit</Button>
+
+            <Button type="reset" variant="secondary">
+              Reset
+            </Button>
+          </div>
+        </Form>
+
+        {/* Divider */}
+        <div className="my-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gray-200" />
+
+          <span className="text-xs text-gray-400">OR</span>
+
+          <div className="h-px flex-1 bg-gray-200" />
         </div>
-      </Form>
+
+        {/* Google Sign In */}
+        <div className="">
+          <Button className="w-full" onClick={handleGoogleSignIn}>Sign In With Google</Button>
+        </div>
+
+        {/* Divider */}
+        <div className="my-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gray-200" />
+
+          <span className="text-xs text-gray-400">OR</span>
+
+          <div className="h-px flex-1 bg-gray-200" />
+        </div>
+        {/* github Sign In */}
+        <div className="">
+          <Button className="w-full" onClick={handleGithubSignIn}>Sign In With Github</Button>
+        </div>
+      </div>
     </div>
   );
 };
