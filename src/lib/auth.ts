@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { Resend } from "resend";
+import { userAc } from "better-auth/plugins/admin/access";
 
 const dbUrl: string = process.env.BETTET_AUTH_DB_URL!; //blank sign ! deyar reason holo oviously value ache...
 
@@ -13,21 +14,36 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
+    sendResetPassword: async ({user, url, token}, request) => {
+      void resend.emails.send({
+        from: "Acme <onboarding@resend.dev>",
+        to: user.email,
+        subject: "Reset your password",
+        html: `
+        <h4>Reset your password</h4>
+        Click the link to reset your password:${url}
+        <p>Ignore this email if you haven't requested a password reset </p>
+        `,
+      });
+    },
     requireEmailVerification: true,
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       void resend.emails.send({
-        from: "Acme <onboarding@example.com>",
+        from: "Acme <onboarding@resend.dev>",
         to: user.email,
         subject: "Verify your email address",
-        html: `Click <a href="${url}">here</a> to verify your email.`,
+        html: `
+        <h1>Please Verifyed Your Email!</h1>
+        Click <a href="${url}">here</a> to verify your email.
+        `,
       });
     },
 
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    expiresIn: 7*24*3600, // 7 days
+    expiresIn: 7 * 24 * 3600, // 7 days
   },
   socialProviders: {
     google: {

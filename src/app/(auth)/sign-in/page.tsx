@@ -11,6 +11,7 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import Link from "next/link";
 import { useState } from "react";
 
 interface SignInFromData {
@@ -143,6 +144,9 @@ const SignInPage = () => {
               Reset
             </Button>
           </div>
+          <p className="underline">
+            Forgot Password ? <Link href="/forgot-password"><span className="text-blue-600">Click here</span></Link>
+          </p>
         </Form>
 
         {/* Divider */}
@@ -156,7 +160,9 @@ const SignInPage = () => {
 
         {/* Google Sign In */}
         <div className="">
-          <Button className="w-full" onClick={handleGoogleSignIn}>Sign In With Google</Button>
+          <Button className="w-full" onClick={handleGoogleSignIn}>
+            Sign In With Google
+          </Button>
         </div>
 
         {/* Divider */}
@@ -169,7 +175,9 @@ const SignInPage = () => {
         </div>
         {/* github Sign In */}
         <div className="">
-          <Button className="w-full" onClick={handleGithubSignIn}>Sign In With Github</Button>
+          <Button className="w-full" onClick={handleGithubSignIn}>
+            Sign In With Github
+          </Button>
         </div>
       </div>
     </div>
